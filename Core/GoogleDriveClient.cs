@@ -43,6 +43,7 @@ namespace Core
             }
 
             client = new HttpClient(handler);
+            client.Timeout = TimeSpan.FromDays(1);
         }
 
         private void HeaderSet(string name, string value)
@@ -97,7 +98,7 @@ namespace Core
             return string.Join("&", keyValuePairs.Select(x => $"{x.Key}={Uri.EscapeDataString(x.Value)}"));
         }
 
-        public async Task<JObject> UploadFile(string filePath, string mimeType, string title)
+        public async Task<JObject> UploadFile(string filePath, string mimeType, string title, bool showInPhotos)
         {
             var parameters = new Dictionary<string, string>
             {
@@ -116,6 +117,7 @@ namespace Core
                 {
                     ["title"] = title,
                     ["mimeType"] = mimeType,
+                    ["alwaysShowInPhotos"] = showInPhotos
                 }), Encoding.UTF8, "application/json");
 
             var response = await client.PostAsync($"https://www.googleapis.com/upload/drive/v2internal/files?{GenerateQueryString(parameters)}", content);

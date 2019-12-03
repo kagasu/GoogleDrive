@@ -27,7 +27,7 @@ namespace Test
             // client.RefreshToken = "1//...";
             // await client.GetAccessTokenFromRefreshToken();
 
-            var uploadFileResponse = await client.UploadFile("input.mp4", "video/mp4", "MyPerfectVideo.mp4");
+            var uploadFileResponse = await client.UploadFile("input.mp4", "video/mp4", "MyPerfectVideo.mp4", true);
             var fileId = uploadFileResponse["id"].Value<string>();
             await client.UpdateFileProperty(fileId, "description", "My perfect description");
             await client.GetFileInfo(fileId);
